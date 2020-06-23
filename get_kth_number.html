@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        function solution(array, commands) {
+            let answer = [];
+            let finalArray = [];
+            for (let a = 0; a < commands.length; a++) {
+                let i = commands[a][0] - 1; //2 ==>1
+                let j = commands[a][1]; //5 ==>4번째까지이려면 5
+                let k = commands[a][2] - 1;
+                //array 자르기
+                const cutArray = array.slice(i, j);
+
+                //정렬하기
+                const sortedArray = cutArray.sort((a, b) => a - b);
+
+                //k번째 숫자 구하기
+                let kthNumber = sortedArray[k];
+
+                //k번째 숫자가 존재하지 않을 때
+                if (kthNumber === undefined) {
+                    kthNumber = -1;
+                }
+                finalArray.push(kthNumber);
+                answer = finalArray;
+            }
+            return answer;
+        }
+        console.log(solution([1, 2, 1, 1, 3, 7, 4, 3, 2], [
+            [2, 5, 3],
+            [4, 4, 1],
+            [1, 7, 3],
+            [1, 7, 3],
+            [1, 7, 3],
+            [1, 7, 3]
+        ]));
+    </script>
+</body>
+
+</html>

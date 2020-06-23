@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function solution(n, lost, reserve) {
+                var answer = 0;
+                //n명 학생들 모두 체육복 1개씩 가진 것으로 초기설정
+                const students = Array(n).fill(1);
+
+                //잃어버린 애들 체육복 1개 => 0개 lost 학생수만큼 반복해서 -1
+                for (let i = 0; i < lost.length; i++) {
+                    const index = lost[i] - 1; //index 0부터 시작하도록
+                    students[index] -= 1;
+                }
+                //여분의 체육복이 있는 아이들은 +1을 해준다.
+                for (let i = 0; i < reserve.length; i++) {
+                    const index = reserve[i] - 1;
+                    students[index] += 1;
+                }
+                console.log(students);
+                //0,0,1,2,1... 상태가 됨 
+                
+                //for문 돌리면서 체육복 나눠주기(앞사람으로부터 빌리는 걸로 설정)
+                for (let i = 0; i < students.length; i++) {
+                    //맨 앞이 아니면서, 체육복이 없는 학생인 경우
+                    if (i !== 0 && students[i] === 0) {
+                        //앞 친구가 체육복이 있으면 빌린다.
+                        if (students[i - 1] === 2) {
+                            students[i - 1]--;  //뺏어서 
+                            students[i]++;      //내가 갖는다
+                            //체육복을 얻었다면 그 뒤의 학생 차례로 넘어간다
+                            continue; 
+                            //continue가 없으면 밑에 로직을 다시 타게 됨.(for문 안에 if문 2개. if문 첫번째 것 탔으면 두번째 if문은 passs)
+                            //즉 지금 if 두 개로 나눠놓고, 여기서 한번 탄 요소는 다음 if 안 타게 됨
+                        }
+                    }
+                    //맨 뒤가 아니면서, 체육복이 없는 학생인 경우
+                    if (i!==students.length -1 && students[i]===0){
+                        //뒷 친구가 여벌의 체육복이 있는지 확인한 후 뺏는다.
+                        if(students[i+1]===2){
+                            students[i+1]--;
+                            students[i]++;
+                        }
+                    }
+                }
+                //체육복 개수 1 이상인 학생수
+                console.log(students);
+                return students.filter(item => item >= 1).length;
+            }
+            console.log(solution(5,[2,3],[1]));
+        </script>
+    </body>
+</html>

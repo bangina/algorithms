@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1></h1>
+    <script>
+        // function solution(N, stages) {
+        //     let failedUsers = [];
+        //     let allUsers = [];
+        //     let failRateObj = {};
+        //     for (let i = 0; i < stages.length; i++) {
+        //         failedUsers[i] = stages.filter(e => e === i + 1).length;
+        //     }
+        //     for (let i = 0; i < stages.length; i++) {
+        //         allUsers[i] = N - stages.filter(e => e < i + 1).length;
+        //     }
+        //     let failRate = [];
+        //     for (let i = 0; i < stages.length; i++) {
+        //         failRate[i] = failedUsers[i] / allUsers[i];
+        //         failRateObj = {
+        //             0: failRate[0],
+        //             1: failRate[1],
+        //             2: failRate[2],
+        //             3: failRate[3]
+        //         }
+        //     }
+        //     return failRateObj;
+        // }
+        // console.log(solution(4, [1, 3, 3, 4]));
+
+        function solution(N, stages) {
+            let answer = [];
+            for (let i = 1; i < N + 1; i++) {
+                let top = stages.filter(item => item == i).length; //성공한 스테이지
+                let bottom = stages.filter(item => item >= i).length; //도달 stage
+                if (bottom === 0) {
+                    answer.push({
+                        sNumber: i,
+                        failRate: 0
+                    });
+                } else {
+                    answer.push({
+                        sNumber: i,
+                        failRate: top / bottom
+                    });
+                }
+            }
+            return answer.sort((a, b) => (b.failRate === a.failRate) ? a.sNumber - b.sNumber : b.failRate - a.failRate).map(item => item.sNumber);
+            // return answer;
+        }
+        console.log(solution(3, [1, 1, 3]));
+    </script>
+</body>
+
+</html>
